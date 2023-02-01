@@ -1,0 +1,60 @@
+{
+  "userdata": [
+    {
+      "name": "jaychand",
+      "gender": "Male",
+      "hobbies": [
+        "Traveling",
+        "Reading Book"
+      ],
+      "city": "Navasari",
+      "address": "sachin",
+      "id": 2
+    },
+    {
+      "name": "sdasdas",
+      "gender": "Female",
+      "hobbies": [
+        "Reading Book",
+        "Cricket"
+      ],
+      "city": "Navasari",
+      "address": "fdsfdsf",
+      "id": 3
+    },
+    {
+      "name": "bhawik",
+      "gender": "Male",
+      "hobbies": [
+        "Cricket",
+        "Reading Book"
+      ],
+      "city": "Surat",
+      "address": "hjhjh",
+      "id": 5
+    },
+    {
+      "name": "jaychandsss",
+      "gender": "Female",
+      "hobbies": [
+        "Cricket",
+        "Reading Book"
+      ],
+      "city": "Navasari",
+      "address": "dasdasdsad",
+      "id": 6
+    },
+    {
+      "name": "ravi",
+      "gender": "Male",
+      "hobbies": [
+        "Cricket",
+        "Reading Book",
+        "Traveling"
+      ],
+      "city": "Navasari",
+      "address": "605,pramukh square building",
+      "id": 7
+    }
+  ]
+}
