@@ -23,7 +23,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
             <button
               type="button"
               class="btn-close"
@@ -39,22 +39,27 @@
                   <div class="col-sm-12">
                     <text-component
                       @text-event="textfieldvalue($event)"
+                      :names="editlistdata.name"
                     ></text-component>
                     <radio-component
                       @radio-event="radiovalue($event)"
+                      :genders="editlistdata.gender"
                     ></radio-component
                     ><br />
                     <checkbox-component
                       @checkbox-event="checkboxvalue($event)"
+                      :checkedHobbie="editlistdata.hobbies"
                     ></checkbox-component
                     ><br />
                     <select-component
                       v-bind:selectalldata="selectdata"
                       @select-event="selectvalue($event)"
+                      :selectcitys="editlistdata.city"
                     ></select-component
                     ><br />
                     <textarea-component
                       @textarea-event="textareavalu($event)"
+                      :addres="editlistdata.address"
                     ></textarea-component>
                   </div>
                 </form>
@@ -70,13 +75,12 @@
             >
               Close
             </button>
-
             <button
               type="button"
-              @click="OpenCloseFun()"
+              @click="EditOpenCloseFun(updatedata)"
               class="btn btn-primary"
             >
-              Save changes
+              Edit changes
             </button>
           </div>
           <!-- <li v-for="hh in editlistdata">{{ hh }}</li> -->
@@ -92,12 +96,15 @@ import RadioComponent from "./RadioComponent.vue";
 import CheckboxComponent from "./CheckboxComponent.vue";
 import SelectComponent from "./SelectComponent.vue";
 import TextareaComponent from "./TextareaComponent.vue";
+import { EventBus } from "../event-bus.js";
 import axios from "axios";
 export default {
   name: "EditToDoModel",
   props: {
     visible: Boolean,
     variant: String,
+    editlistdata: Object,
+    addtitlemodel: String,
   },
   data() {
     return {
@@ -109,6 +116,7 @@ export default {
       selectdata: ["Surat", "Navasari", "Udhana", "Pandesara"],
       fcity: "",
       faddress: "",
+      updatedata: this.editlistdata,
     };
   },
   components: {
@@ -143,21 +151,26 @@ export default {
     textareavalu(value) {
       this.faddress = value;
     },
-    // insert Records
-    async OpenCloseFun() {
-      // console.log(editdata);
+    // Update Records
+    async EditOpenCloseFun(updatedata) {
       try {
-        const userdata = await axios.post(`http://localhost:3000/userdata/`, {
-          name: this.fname,
-          gender: this.fgender,
-          hobbies: this.fhobbies,
-          city: this.fcity,
-          address: this.faddress,
-        });
-        // console.log(userdata.data);
-        this.$emit("data-event", userdata.data);
+        const user = await axios.put(
+          "http://localhost:3000/userdata/" + updatedata.id,
+          {
+            name: this.fname == "" ? updatedata.name : this.fname,
+            gender: this.fgender == "" ? updatedata.gender : this.fgender,
+            hobbies: this.fhobbies == "" ? updatedata.hobbies : this.fhobbies,
+            city: this.fcity == "" ? updatedata.city : this.fcity,
+            address: this.faddress == "" ? updatedata.address : this.faddress,
+          }
+        );
+
+        console.log(user.data);
+        EventBus.$emit("updatedata-event");
         this.OpenClose = !this.OpenClose;
         this.$emit("close-modal-event");
+        // this.$router.push("/");
+        // alert("User updated!");
       } catch (e) {
         console.log(e);
       }

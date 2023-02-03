@@ -8,9 +8,14 @@
         variant="success"
         @close-modal-event="hideModal"
         @data-event="insertdata($event)"
-        :editlistdata="editdata"
-        :addtitlemodel="addtitle"
       ></form-model>
+      <edit-model
+        v-if="displayeditModal"
+        :visible="true"
+        variant="success"
+        @close-modal-event="hideModal"
+        :editlistdata="editdata"
+      ></edit-model>
     </nav>
     <table class="table">
       <thead>
@@ -53,21 +58,23 @@
 <script>
 import axios from "axios";
 import FormModel from "./components/FormModel.vue";
+import EditModel from "./components/EditModel.vue";
 import { EventBus } from "./event-bus.js";
 export default {
   data() {
     // All data return
     return {
-      addtitle: "",
       editdata: [],
       alldata: [],
       displayModal: false,
+      displayeditModal: false,
       userlist: [],
     };
   },
   // import formmodel and use component formmodel
   components: {
     FormModel,
+    EditModel,
   },
   methods: {
     // insert/add time emit event push value in userlist/datatable
@@ -77,17 +84,16 @@ export default {
     // this function is open model
     showModal() {
       this.displayModal = true;
-      this.editdata = "";
-      this.addtitle = "Addtitle";
     },
     // EditToModel Component in Hidden Model
     hideModal() {
       this.displayModal = false;
+      this.displayeditModal = false;
     },
     // Edit time open model and pass data
     editmodel(alldata) {
       this.editdata = alldata;
-      (this.addtitle = ""), (this.displayModal = true);
+      this.displayeditModal = true;
     },
     // Delete the data with json api
     deletedata(id) {
